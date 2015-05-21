@@ -184,18 +184,23 @@ struct_way commands::do_func (struct_way& way) // Вариант 2
         if (way.command[way.i] == "walk")
         {
             way.i++;
-            if (way.command[way.i] == "before")
+            if (way.command[way.i] == "while")
             {
                 way.i++;
-                if (way.command[way.i] == "+")
+                if (way.command[way.i] == "not")
                 {
-                    while (way.track[way.position] != '+')
+                    way.i++;
+                    if (way.command[way.i] == "+")
+                    {
+                        while (way.track[way.position] != '+')
+                            way = walk_func(way);
+                    }
+                    else if (way.command[way.i] == "|")
+                    {
+                        while (way.track[way.position + 1] != '|')
                         way = walk_func(way);
-                }
-                else if (way.command[way.i] == "|")
-                {
-                    while (way.track[way.position + 1] != '|')
-                        way = walk_func(way);
+                    }
+                    else throw 2;
                 }
                 else throw 2;
             }
@@ -204,18 +209,23 @@ struct_way commands::do_func (struct_way& way) // Вариант 2
         else if (way.command[way.i] == "jump")
         {
             way.i++;
-            if (way.command[way.i] == "before")
+            if (way.command[way.i] == "while")
             {
                 way.i++;
-                if (way.command[way.i] == "+")
+                if (way.command[way.i] == "not")
                 {
-                    while (way.track[way.position] != '+')
-                        way = jump_func(way);
-                }
-                else if (way.command[way.i] == "|")
-                {
-                    while (way.track[way.position + 1] != '|')
-                        way = jump_func(way);
+                    way.i++;
+                    if (way.command[way.i] == "+")
+                    {
+                        while (way.track[way.position] != '+')
+                            way = jump_func(way);
+                    }
+                    else if (way.command[way.i] == "|")
+                    {
+                        while (way.track[way.position + 1] != '|')
+                            way = jump_func(way);
+                    }
+                    else throw 2;
                 }
                 else throw 2;
             }
@@ -335,12 +345,12 @@ struct_way commands::repeat_func (struct_way& way) // Вариант 3
             if (way.command[way.i] == "until")
             {
                 way.i++;
-                if (way.command[way.i++] == "+")
+                if (way.command[way.i] == "+")
                 {
                     while (way.track[way.position] != '+')
                         way = walk_func(way);
                 }
-                else if (way.command[way.i++] == "|")
+                else if (way.command[way.i] == "|")
                 {
                     while (way.track[way.position + 1] != '|')
                         way = walk_func(way);
@@ -355,12 +365,12 @@ struct_way commands::repeat_func (struct_way& way) // Вариант 3
             if (way.command[way.i] == "until")
             {
                 way.i++;
-                if (way.command[way.i++] == "+")
+                if (way.command[way.i] == "+")
                 {
                     while (way.track[way.position] != '+')
                         way = jump_func(way);
                 }
-                else if (way.command[way.i++] == "|")
+                else if (way.command[way.i] == "|")
                 {
                     while (way.track[way.position + 1] != '|')
                         way = jump_func(way);

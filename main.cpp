@@ -166,13 +166,13 @@ int main ()
             
         case 2:
             rules();
-            cin >> e;
-            if (e == 0)
+            do
             {
-                cout << "\n";
-                exit(main());
+                cin >> e;
             }
-            break;
+            while (e != 0);
+            cout << "\n";
+            exit(main());
             
         case 3:
             exit(0);
